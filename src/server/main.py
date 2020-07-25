@@ -1,11 +1,19 @@
 from flask import Flask
 from flask import jsonify
+from google.cloud import datastore
 
 app = Flask(__name__)
+db = datastore.Client().from_service_account_json('../../what-apy.json')
+
+kind = 'flat_apy'
+name = 'savings_acc_name'
+key = db.key(kind, name)
 
 @app.route('/')
 def hello_world():
-    return 'Which APY?'
+  # createEntry()
+  readSavings()
+  return 'Which APY?'
 
 @app.route('/savings_accounts')
 def savings_accounts():
@@ -19,3 +27,15 @@ def savings_accounts():
         'name': "test2",
       }
     ])
+
+def createEntry():
+  entry = datastore.Entity(key=key)
+  entry['apy'] = 1.05
+  entry['name'] = 'test'
+
+  db.put(entry)
+
+def readSavings():
+  entries = db.query(kind=kind).fetch()
+  for entry in entries:
+      print('{} has apy: {}'.format(entry['name'], entry['apy']))
