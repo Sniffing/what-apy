@@ -9,12 +9,6 @@ kind = 'flat_apy'
 name = 'savings_acc_name'
 key = db.key(kind, name)
 
-@app.route('/')
-def hello_world():
-  # createEntry()
-  readSavings()
-  return 'Which APY?'
-
 @app.route('/savings_accounts')
 def savings_accounts():
     return jsonify([
