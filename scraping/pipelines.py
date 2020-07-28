@@ -37,7 +37,13 @@ class DatabasePipeline:
         id_date = date.today().strftime("%Y-%m-%d")
 
         utc = int(time.time()) #UTC time of entry
-        name = '{}-{}'.format(id_date, hash(hash(item['bank']) + hash(item['accName'])))
+
+        hasher = hashlib.md5()
+        hasher.update(item['bank'].encode('utf-8'))
+        hasher.update(item['accName'].encode('utf-8'))
+        nameHash = hasher.hexdigest()
+
+        name = '{}-{}'.format(id_date, nameHash)
         key = self.db.key(self.kind, name)
 
         entry = datastore.Entity(key=key)
