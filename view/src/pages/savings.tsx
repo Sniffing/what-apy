@@ -11,14 +11,14 @@ interface IProps {
 
 @inject('savingsStore')
 @observer
-export class Savings extends React.Component<IProps> {
+export class SavingsPage extends React.Component<IProps> {
 
   private savingsAccountsPromise: IPromiseBasedObservable<ISavingsAccountDTO[]> = fromPromise(Promise.resolve([]));
 
   @action.bound
   public componentDidMount() {
     if (!this.props.savingsStore)
-      return
+      return;
 
     this.savingsAccountsPromise = fromPromise(this.props.savingsStore.fetch());
   }
@@ -27,19 +27,18 @@ export class Savings extends React.Component<IProps> {
     return (
       this.savingsAccountsPromise.case({
         fulfilled: (accounts: ISavingsAccountDTO[]) =>
-          <>
-            <BarDisplay
-              data={accounts.map(acc => {
-                return {
-                  title: acc.name,
-                  value: Number(acc.apy),
-                }
-              })}
-            />
-          </> ,
+          <BarDisplay
+            showNumber={true}
+            data={accounts.map(acc => {
+              return {
+                title: acc.name,
+                value: Number(acc.apy),
+              };
+            })}
+          />,
         pending: () => <div>loading...</div>,
         rejected: (error) => <div>Error {error}</div>,
       })
-    )
+    );
   }
 }

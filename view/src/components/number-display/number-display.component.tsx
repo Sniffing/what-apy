@@ -1,7 +1,7 @@
 import React from 'react';
 import { Spring } from 'react-spring/renderprops';
 
-interface INumberDisplayProps {
+interface INumberDisplayProps extends React.HTMLAttributes<HTMLDivElement>{
   seconds?: number;
   decimalPlaces?: number;
   from: number;
@@ -21,8 +21,9 @@ export class NumberDisplay extends React.Component<INumberDisplayProps> {
         config={config}
         from={{number: from}}
         to={{number: to}}
+        {...this.props.className}
       >
-        {(props) => <div>{props.number.toFixed(decimalPlaces ? decimalPlaces : 1)}</div>}
+        {(props) => <div className={this.props.className}>{props.number.toFixed(decimalPlaces ? decimalPlaces : 1)}</div>}
       </Spring>
     );
   }

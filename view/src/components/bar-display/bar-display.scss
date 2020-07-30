@@ -1,5 +1,4 @@
 .barDisplay {
-
   margin: 20px;
   display: flex;
   flex-direction: row;
@@ -9,6 +8,9 @@
   .bar {
     margin: 10px;
 
+    .barNumber {
+      text-align: center;
+    }
 
     .barContainer {
       width: 20vw;
@@ -25,6 +27,7 @@
     .barTitle {
       min-height: 65px;
       width: 20vw;
+      text-align: center;
     }
   }
 }

@@ -2,13 +2,15 @@ import React from 'react';
 import { Provider } from 'mobx-react';
 import './App.css';
 import stores from './stores/Stores';
-import { Savings } from './pages/savings';
+import { SavingsPage } from './pages/savings';
+import { BaseRatePage } from './pages/base-rate';
 
 function App() {
   return (
     <Provider {...stores}>
       <div className="App">
-        <Savings/>
+        <BaseRatePage/>
+        <SavingsPage/>
       </div>
     </Provider>
   );

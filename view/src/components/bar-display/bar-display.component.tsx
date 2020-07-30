@@ -4,6 +4,7 @@ import './bar-display.scss';
 import { Spring } from 'react-spring/renderprops';
 import { NumberDisplay } from '../number-display/number-display.component';
 
+import './bar-display.scss';
 
 interface IBarDisplayProps {
   data: IBar[];
@@ -31,6 +32,7 @@ export class BarDisplay extends React.Component<IBarDisplayProps> {
                 from={0}
                 decimalPlaces={2}
                 to={value}
+                className="barNumber"
               />
               }
               <Spring
