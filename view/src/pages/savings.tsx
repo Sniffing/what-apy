@@ -25,7 +25,8 @@ export class SavingsPage extends React.Component<IProps> {
 
   public render() {
     return (
-      this.savingsAccountsPromise.case({
+      <>
+      {/* {this.savingsAccountsPromise.case({
         fulfilled: (accounts: ISavingsAccountDTO[]) =>
           <BarDisplay
             showNumber={true}
@@ -38,7 +39,16 @@ export class SavingsPage extends React.Component<IProps> {
           />,
         pending: () => <div>loading...</div>,
         rejected: (error) => <div>Error {error}</div>,
-      })
+      })} */}
+
+        <div>Store details</div>
+        <p>Promise resolved {this.savingsAccountsPromise.state}</p>
+        <p>
+          {this.savingsAccountsPromise.value?.map((entry:ISavingsAccountDTO)=> (
+            <span>{entry.name}: {entry.apy}</span>
+          ))}
+        </p>
+      </>
     );
   }
 }

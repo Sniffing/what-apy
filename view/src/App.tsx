@@ -9,7 +9,7 @@ function App() {
   return (
     <Provider {...stores}>
       <div className="App">
-        <BaseRatePage/>
+        {/* <BaseRatePage/> */}
         <SavingsPage/>
       </div>
     </Provider>

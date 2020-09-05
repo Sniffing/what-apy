@@ -11,16 +11,20 @@ key = db.key(kind, name)
 
 @app.route('/savings_accounts')
 def savings_accounts():
-    return jsonify([
-      {
-        'apy': 1.05,
-        'name': "test",
-      },
-      {
-        'apy': 1.15,
-        'name': "test2",
-      }
-    ])
+  query = db.query(kind=kind)
+  result = query.fetch()
+  print('api call', list(result))
+
+  return jsonify([
+    {
+      'apy': 1.05,
+      'name': "test",
+    },
+    {
+      'apy': 1.18,
+      'name': "test2",
+    }
+  ])
 
 def createEntry():
   entry = datastore.Entity(key=key)
