@@ -2,7 +2,7 @@ import React from 'react';
 
 import './bar-display.scss';
 import { Spring } from 'react-spring/renderprops';
-import { NumberDisplay } from '../number-display/number-display.component';
+import { NumberDisplay } from '../number/number-display.component';
 
 import './bar-display.scss';
 

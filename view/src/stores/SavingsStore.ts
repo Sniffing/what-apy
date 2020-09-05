@@ -2,8 +2,12 @@
 import axios from 'axios';
 
 export interface ISavingsAccountDTO {
-  apy: string,
   name: string,
+  bank: string,
+  entries: number,
+  latest_apy: number,
+  latest_date: number,
+  total_apy: number
 }
 
 export class SavingsStore {
