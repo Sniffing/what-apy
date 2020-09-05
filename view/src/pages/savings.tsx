@@ -6,6 +6,8 @@ import { SavingsStore, ISavingsAccountDTO } from '../stores/SavingsStore';
 import { BarDisplay } from '../components/bar-display/bar-display.component';
 import { NumberFade } from '../components/number/number-fade.component';
 
+import './savings.scss';
+
 interface IProps {
   savingsStore?: SavingsStore;
 }
@@ -45,10 +47,16 @@ export class SavingsPage extends React.Component<IProps> {
 
   public render() {
     return (
-      <>
-      <NumberFade value={0.8}/>
-      {this.allAccounts}
-      </>
+      <div className="savings">
+        <div className="savingsTopApy">
+          <NumberFade value={0.8} style={{
+            fontSize: '150px',
+            fontFamily: 'Arial, sans-serif',
+            fontWeight: 'bold'
+          }}/>
+        </div>
+        {this.allAccounts}
+      </div>
     )
   }
 }
