@@ -1,6 +1,6 @@
 import React from 'react';
 import { BarDisplay, IBar } from '../bar-display/bar-display.component';
-import ReactToolTip from 'react-tooltip';
+
 import './bar-display-with-avg.scss';
 
 interface IProps {
@@ -19,21 +19,19 @@ export class BarDisplayWithAverage extends React.Component<IProps> {
           className='current'
         />
 
-        <a data-tip="React-tooltip">
-          <BarDisplay
-            data={{
-              title: '',
-              value: average,
-            }}
-            showNumber={false}
-            className='average'
-          />
-        </a>
-        <ReactToolTip className="tooltip">
-          <span>Average APY: {average}%</span>
-          <br/>
-          <span>Time observed: {days} days</span>
-        </ReactToolTip>
+        <BarDisplay
+          data={{
+            title: '',
+            value: average,
+          }}
+          showNumber={false}
+          tooltip={<>
+            <span>Average APY: {average}%</span>
+            <br/>
+            <span>Time observed: {days} days</span>
+          </>}
+          className='average'
+        />
       </div>
     );
   }

@@ -64,15 +64,23 @@ export class SavingsPage extends React.Component<IProps> {
         <BarDisplay
           data={{
             title:'test',
-            value: 2.5,
+            value: 1.5,
           }}
         />
         <BarDisplayWithAverage
           average={1.9}
           days={31}
           value={{
-            title:'test',
+            title:'test2',
             value: 2.5,
+          }}
+        />
+        <BarDisplayWithAverage
+          average={2}
+          days={31}
+          value={{
+            title:'test3',
+            value: 2.55,
           }}
         />
       </div>

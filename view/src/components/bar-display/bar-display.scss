@@ -16,6 +16,7 @@
     flex-direction: row;
     justify-content: center;
 
+
     .barGraphic {
       width: 100%;
       background-color: black;
@@ -33,4 +34,9 @@
       text-overflow: ellipsis;
     }
   }
+
+  .tooltip {
+    padding: 6px;
+    margin: 0;
   }
+}
