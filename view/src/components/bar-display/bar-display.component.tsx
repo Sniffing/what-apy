@@ -25,7 +25,13 @@ export class BarDisplay extends React.Component<IBarDisplayProps> {
 
     if (tooltip) {
       wrappedNode =
-      <Tooltip title={tooltip} placement="right" arrow TransitionComponent={Zoom}>
+      <Tooltip
+        open
+        title={tooltip}
+        placement="right"
+        arrow
+        TransitionComponent={Zoom}
+      >
         {node}
       </Tooltip>;
     }

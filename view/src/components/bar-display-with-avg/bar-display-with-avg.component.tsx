@@ -25,11 +25,11 @@ export class BarDisplayWithAverage extends React.Component<IProps> {
             value: average,
           }}
           showNumber={false}
-          tooltip={<>
+          tooltip={<div style={{fontSize: '16px'}}>
             <span>Average APY: {average}%</span>
             <br/>
             <span>Time observed: {days} days</span>
-          </>}
+          </div>}
           className='average'
         />
       </div>
