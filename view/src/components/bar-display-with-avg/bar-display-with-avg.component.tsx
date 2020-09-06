@@ -18,6 +18,7 @@ export class BarDisplayWithAverage extends React.Component<IProps> {
           data={value}
           className='current'
         />
+
         <a data-tip="React-tooltip">
           <BarDisplay
             data={{

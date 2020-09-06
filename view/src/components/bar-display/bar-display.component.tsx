@@ -25,16 +25,17 @@ export class BarDisplay extends React.Component<IBarDisplayProps> {
         key={title}
         className={className}
       >
-        {showNumber &&
+        <div className="barNumber">
+          {showNumber &&
               <NumberDisplay
                 seconds={1}
                 from={0}
                 decimalPlaces={2}
                 to={value}
                 unit={'%'}
-                className="barNumber"
-              />
-        }
+
+              />}
+        </div>
         <Spring
           config={{
             duration: 1000,
