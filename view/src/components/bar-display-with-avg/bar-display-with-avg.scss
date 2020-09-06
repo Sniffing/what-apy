@@ -1,0 +1,28 @@
+@import '../bar-display/bar-display.scss';
+
+.barDisplayWithAvg {
+  display: flex;
+  flex-direction: row;
+
+  .current {
+    @extend .bar;
+    margin:0;
+  }
+
+  .average{
+    @extend .bar;
+    margin:0;
+    width: 20px;
+
+    .barContainer {
+      .barGraphic {
+        background-color: green;
+      }
+    }
+  }
+
+  .tooltip {
+    padding: 6px;
+    margin: 0;
+  }
+}

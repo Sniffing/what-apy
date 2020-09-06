@@ -1,35 +1,34 @@
-.barDisplay {
-  margin: 20px;
+.bar {
+  margin: 10px;
   display: flex;
-  flex-direction: row;
-  align-items: flex-end;
-  height: 100%;
+  flex-direction: column;
+  width: 60px;
 
-  .bar {
-    margin: 10px;
+  .barNumber {
+    text-align: center;
+  }
+
+  .barContainer {
+    flex-grow: 1;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    justify-content: center;
 
-    .barNumber {
-      text-align: center;
-    }
-
-    .barContainer {
-      flex-grow: 1;
-      display: flex;
-      flex-direction: row;
-      justify-content: center;
-
-      .barGraphic {
-        background-color: black;
-        width: 25px;
-      }
-    }
-
-    .barTitle {
-      min-height: 65px;
-      flex-grow: 1;
-      text-align: center;
+    .barGraphic {
+      width: 100%;
+      background-color: black;
+      vertical-align: baseline;
     }
   }
-}
+
+  .barTitle {
+    max-height: 100px;
+    height: 100px;
+    flex-grow: 1;
+    text-align: center;
+
+    > span {
+      text-overflow: ellipsis;
+    }
+  }
+  }

@@ -7,6 +7,7 @@ import { BarDisplay } from '../components/bar-display/bar-display.component';
 import { NumberFade } from '../components/number/number-fade.component';
 
 import './savings.scss';
+import { BarDisplayWithAverage } from '../components/bar-display-with-avg/bar-display-with-avg.component';
 
 interface IProps {
   savingsStore?: SavingsStore;
@@ -31,18 +32,22 @@ export class SavingsPage extends React.Component<IProps> {
   private get allAccounts() {
     return this.savingsAccountsPromise.case({
       fulfilled: (accounts: ISavingsAccountDTO[]) =>
-        <BarDisplay
-          showNumber={true}
-          data={accounts.map(acc => {
-            return {
-              title: acc.name,
-              value: Number(acc.latest_apy),
-            };
-          })}
-        />,
+        (
+          <>
+            {accounts.map((acc, index) =>
+              <BarDisplay
+                key={index}
+                data={{
+                  title: acc.name,
+                  value: Number(acc.latest_apy),
+                }}
+              />
+            )}
+          </>
+        ),
       pending: () => <div>loading...</div>,
       rejected: (error) => <div>Error {error}</div>,
-  });
+    });
   }
 
   public render() {
@@ -55,8 +60,22 @@ export class SavingsPage extends React.Component<IProps> {
             fontWeight: 'bold'
           }}/>
         </div>
-        {this.allAccounts}
+        {/* {this.allAccounts} */}
+        <BarDisplay
+          data={{
+            title:'test',
+            value: 2.5,
+          }}
+        />
+        <BarDisplayWithAverage
+          average={1.9}
+          days={31}
+          value={{
+            title:'test',
+            value: 2.5,
+          }}
+        />
       </div>
-    )
+    );
   }
 }

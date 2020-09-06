@@ -1,4 +1,4 @@
-class SavingsAcc():
+class SavingsAcc:
   def __init__(self, acc):
     self.bank = acc['bank']
     self.name = acc['name']
@@ -20,7 +20,7 @@ class SavingsAcc():
       self.latest_date = acc['timestamp']
       self.latest_apy = float(acc['apy'][:-1])
 
-class SavingsAccountDAO():
+class SavingsAccountDAO:
   def groupByBank(self, savings_accs):
     groups = {}
 

@@ -6,12 +6,13 @@ interface INumberDisplayProps extends React.HTMLAttributes<HTMLDivElement>{
   decimalPlaces?: number;
   from: number;
   to: number;
+  unit? : string;
 }
 
 export class NumberDisplay extends React.Component<INumberDisplayProps> {
 
   public render() {
-    const {seconds, from ,to, decimalPlaces} = this.props;
+    const {seconds, from ,to, decimalPlaces, unit} = this.props;
     const config = seconds ? {
       duration: seconds * 1000
     } : {};
@@ -23,7 +24,7 @@ export class NumberDisplay extends React.Component<INumberDisplayProps> {
         to={{number: to}}
         {...this.props.className}
       >
-        {(props) => <div className={this.props.className}>{props.number.toFixed(decimalPlaces ? decimalPlaces : 1)}</div>}
+        {(props) => <div className={this.props.className}>{`${props.number.toFixed(decimalPlaces ? decimalPlaces : 1)}${unit ?? ''}`}</div>}
       </Spring>
     );
   }
