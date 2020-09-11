@@ -9,6 +9,7 @@ import { NumberFade } from '../components/number/number-fade.component';
 import './savings.scss';
 import { BarDisplayWithAverage } from '../components/bar-display-with-avg/bar-display-with-avg.component';
 import { AccountTable } from '../components/account-table/account-table.component';
+import { Row, Col } from 'antd';
 
 interface IProps {
   savingsStore?: SavingsStore;
@@ -36,8 +37,9 @@ export class SavingsPage extends React.Component<IProps> {
       fulfilled: (accounts: ISavingsAccountDTO[]) => {
         const top = [...accounts].sort((a,b) => b.latest_apy - a.latest_apy)
         .slice(0, this.COUNT);
-        return <>
+        return <Row gutter={32}>
             {top.map((acc, index) =>
+            <Col>
               <BarDisplay
                 key={index}
                 data={{
@@ -45,8 +47,9 @@ export class SavingsPage extends React.Component<IProps> {
                   value: Number(acc.latest_apy),
                 }}
               />
+              </Col>
             )}
-          </>
+          </Row>
         },
       pending: () => <div>loading...</div>,
       rejected: (error) => <div>Error {error}</div>,
@@ -75,14 +78,6 @@ export class SavingsPage extends React.Component<IProps> {
           data={{
             title:'test',
             value: 1.5,
-          }}
-        />
-        <BarDisplayWithAverage
-          average={1.9}
-          days={31}
-          value={{
-            title:'test2',
-            value: 2.5,
           }}
         />
         <BarDisplayWithAverage
