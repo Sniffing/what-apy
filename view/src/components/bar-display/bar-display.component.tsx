@@ -1,9 +1,9 @@
 import React from 'react';
 
 import './bar-display.scss';
+import { Tooltip } from 'antd';
 import { Spring } from 'react-spring/renderprops';
 import { NumberDisplay } from '../number/number-display.component';
-import { Tooltip, Zoom } from '@material-ui/core';
 import './bar-display.scss';
 
 interface IBarDisplayProps {
@@ -26,11 +26,8 @@ export class BarDisplay extends React.Component<IBarDisplayProps> {
     if (tooltip) {
       wrappedNode =
       <Tooltip
-        open
         title={tooltip}
         placement="right"
-        arrow
-        TransitionComponent={Zoom}
       >
         {node}
       </Tooltip>;

@@ -8,6 +8,7 @@ import { NumberFade } from '../components/number/number-fade.component';
 
 import './savings.scss';
 import { BarDisplayWithAverage } from '../components/bar-display-with-avg/bar-display-with-avg.component';
+import { AccountTable } from '../components/account-table/account-table.component';
 
 interface IProps {
   savingsStore?: SavingsStore;
@@ -16,6 +17,7 @@ interface IProps {
 @inject('savingsStore')
 @observer
 export class SavingsPage extends React.Component<IProps> {
+  private COUNT = 5;
 
   @observable
   private savingsAccountsPromise: IPromiseBasedObservable<ISavingsAccountDTO[]> = fromPromise(Promise.resolve([]));
@@ -29,12 +31,13 @@ export class SavingsPage extends React.Component<IProps> {
   }
 
   @computed
-  private get allAccounts() {
+  private get topAccounts() {
     return this.savingsAccountsPromise.case({
-      fulfilled: (accounts: ISavingsAccountDTO[]) =>
-        (
-          <>
-            {accounts.map((acc, index) =>
+      fulfilled: (accounts: ISavingsAccountDTO[]) => {
+        const top = [...accounts].sort((a,b) => b.latest_apy - a.latest_apy)
+        .slice(0, this.COUNT);
+        return <>
+            {top.map((acc, index) =>
               <BarDisplay
                 key={index}
                 data={{
@@ -44,10 +47,16 @@ export class SavingsPage extends React.Component<IProps> {
               />
             )}
           </>
-        ),
+        },
       pending: () => <div>loading...</div>,
       rejected: (error) => <div>Error {error}</div>,
     });
+  }
+
+  @computed
+  private get allAccounts(): ISavingsAccountDTO[] {
+    const accounts = this.savingsAccountsPromise.value;
+    return accounts ? [...accounts].sort((a,b) => b.latest_apy - a.latest_apy) : []
   }
 
   public render() {
@@ -60,7 +69,8 @@ export class SavingsPage extends React.Component<IProps> {
             fontWeight: 'bold'
           }}/>
         </div>
-        {/* {this.allAccounts} */}
+        {this.topAccounts}
+        <AccountTable className="savingsTable" data={this.allAccounts}/>
         <BarDisplay
           data={{
             title:'test',
