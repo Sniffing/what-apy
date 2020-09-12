@@ -10,6 +10,7 @@ import './savings.scss';
 import { BarDisplayWithAverage } from '../components/bar-display-with-avg/bar-display-with-avg.component';
 import { AccountTable } from '../components/account-table/account-table.component';
 import { Row, Col } from 'antd';
+import { sortAccounts } from '../Constants';
 
 interface IProps {
   savingsStore?: SavingsStore;
@@ -35,7 +36,7 @@ export class SavingsPage extends React.Component<IProps> {
   private get topAccounts() {
     return this.savingsAccountsPromise.case({
       fulfilled: (accounts: ISavingsAccountDTO[]) => {
-        const top = [...accounts].sort((a,b) => b.latest_apy - a.latest_apy)
+        const top = [...accounts].sort(sortAccounts)
         .slice(0, this.COUNT);
         return <Row gutter={32}>
             {top.map((acc, index) =>
@@ -59,7 +60,7 @@ export class SavingsPage extends React.Component<IProps> {
   @computed
   private get allAccounts(): ISavingsAccountDTO[] {
     const accounts = this.savingsAccountsPromise.value;
-    return accounts ? [...accounts].sort((a,b) => b.latest_apy - a.latest_apy) : []
+    return accounts ? [...accounts].sort(sortAccounts) : []
   }
 
   public render() {
