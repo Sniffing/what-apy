@@ -13,7 +13,6 @@ export interface ISavingsAccountDTO {
 export class SavingsStore {
 
   public async fetch(): Promise<ISavingsAccountDTO[]> {
-    console.log('fetchin')
     try {
       const response = await axios.get('/savings_accounts');
       return response.data as ISavingsAccountDTO[];

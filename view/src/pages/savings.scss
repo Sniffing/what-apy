@@ -1,6 +1,19 @@
 .savings {
+  text-align: center;
+
   .savingsTopApy {
-    text-align: center;
+    font-size: 50px;
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+  }
+
+  .viewButtons {
+    > label {
+      min-width: 100px;
+      width: 100px;
+    }
+
+    margin: 20px 0
   }
 
   .savingsTable {

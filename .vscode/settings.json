@@ -1,3 +1,11 @@
 {
-  "python.pythonPath": "/opt/anaconda3/bin/python"
+  "eslint.alwaysShowStatus": true,
+  "git.ignoreLimitWarning": true,
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "python.pythonPath": "/opt/anaconda3/bin/python",
+  "[typescript]": {
+    "editor.codeActionsOnSave": {
+        "source.fixAll": true
+    }
+  },
 }

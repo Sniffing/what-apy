@@ -1,34 +1,38 @@
 import React from 'react';
+import { ISavingsAccountDTO } from '../../stores/SavingsStore';
 import { BarDisplay, IBar } from '../bar-display/bar-display.component';
 
 import './bar-display-with-avg.scss';
 
 interface IProps {
-  average: number;
-  days: number;
-  value: IBar;
+  account: ISavingsAccountDTO;
+  tooltip?: React.ReactNode;
 }
 
 export class BarDisplayWithAverage extends React.Component<IProps> {
   public render() {
-    const { average, days, value } = this.props;
+    const { account } = this.props;
+    const avg = account.total_apy / account.entries
     return (
       <div className="barDisplayWithAvg">
         <BarDisplay
-          data={value}
+          data={{
+            title: account.bank,
+            value: account.latest_apy
+          }}
           className='current'
         />
 
         <BarDisplay
           data={{
             title: '',
-            value: average,
+            value: avg,
           }}
           showNumber={false}
-          tooltip={<div style={{fontSize: '16px'}}>
-            <span>Average APY: {average}%</span>
-            <br/>
-            <span>Time observed: {days} days</span>
+          tooltip={<div style={{ fontSize: '16px' }}>
+            <span>Average APY: {avg.toFixed(2)}%</span>
+            <br />
+            <span>Time observed: {account.entries} days</span>
           </div>}
           className='average'
         />

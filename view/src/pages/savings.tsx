@@ -1,25 +1,35 @@
 import React from 'react';
-import {inject, observer} from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 import { action, observable, computed } from 'mobx';
 import { fromPromise, IPromiseBasedObservable } from 'mobx-utils';
 import { SavingsStore, ISavingsAccountDTO } from '../stores/SavingsStore';
-import { BarDisplay } from '../components/bar-display/bar-display.component';
 import { NumberFade } from '../components/number/number-fade.component';
 
 import './savings.scss';
 import { BarDisplayWithAverage } from '../components/bar-display-with-avg/bar-display-with-avg.component';
 import { AccountTable } from '../components/account-table/account-table.component';
-import { Row, Col } from 'antd';
+import { Row, Col, Spin, Radio } from 'antd';
 import { sortAccounts } from '../Constants';
+import { RadioChangeEvent } from 'antd/lib/radio';
+import { MetadataStore } from '../stores/MetadataStore';
 
 interface IProps {
   savingsStore?: SavingsStore;
+  metadataStore?: MetadataStore;
 }
 
-@inject('savingsStore')
+enum EAccountsView {
+  TOP_ACCOUNTS_GRAPH = 'TOP_ACCOUNTS_GRAPH',
+  ALL_ACCOUNTS_TABLE = 'ALL_ACCOUNTS_TABLE',
+}
+
+@inject('savingsStore', 'metadataStore')
 @observer
 export class SavingsPage extends React.Component<IProps> {
   private COUNT = 5;
+
+  @observable
+  private currentView: EAccountsView = EAccountsView.TOP_ACCOUNTS_GRAPH;
 
   @observable
   private savingsAccountsPromise: IPromiseBasedObservable<ISavingsAccountDTO[]> = fromPromise(Promise.resolve([]));
@@ -33,25 +43,45 @@ export class SavingsPage extends React.Component<IProps> {
   }
 
   @computed
-  private get topAccounts() {
+  private get bestAccountDetails() {
+    if (!this.allAccounts.length) {
+      return <Spin />
+    }
+
+    const { metadataStore } = this.props;
+    const best = this.allAccounts[0];
+
+    return <div className="savingsTopApy">
+      <div>Current top APY</div>
+      <NumberFade value={`${best.latest_apy.toFixed(2)}%`} style={{
+        fontSize: '150px',
+      }} />
+      <div>{metadataStore? metadataStore.bankLabels[best.bank] : best.bank}</div>
+      <div>{best.name}</div>
+    </div>
+  }
+
+  @computed
+  private get topAccountsGraph() {
+    const { metadataStore } = this.props;
     return this.savingsAccountsPromise.case({
       fulfilled: (accounts: ISavingsAccountDTO[]) => {
         const top = [...accounts].sort(sortAccounts)
-        .slice(0, this.COUNT);
+          .slice(0, this.COUNT);
         return <Row gutter={32}>
-            {top.map((acc, index) =>
+          {top.map((acc, index) =>
             <Col>
-              <BarDisplay
+              <BarDisplayWithAverage
                 key={index}
-                data={{
-                  title: acc.name,
-                  value: Number(acc.latest_apy),
+                account={{
+                  ...acc,
+                  bank: metadataStore? metadataStore.bankLabels[acc.bank] : acc.bank
                 }}
               />
-              </Col>
-            )}
-          </Row>
-        },
+            </Col>
+          )}
+        </Row>
+      },
       pending: () => <div>loading...</div>,
       rejected: (error) => <div>Error {error}</div>,
     });
@@ -59,36 +89,50 @@ export class SavingsPage extends React.Component<IProps> {
 
   @computed
   private get allAccounts(): ISavingsAccountDTO[] {
+    const { metadataStore } = this.props;
     const accounts = this.savingsAccountsPromise.value;
-    return accounts ? [...accounts].sort(sortAccounts) : []
+    return accounts ? [...accounts].sort(sortAccounts).map(acc => {
+      return {
+        ...acc,
+        bank: metadataStore? metadataStore.bankLabels[acc.bank] : acc.bank
+      }
+    }) : []
+  }
+
+  @computed
+  private get viewOptions() {
+    return [
+      { label: `Top ${this.COUNT}`, value: EAccountsView.TOP_ACCOUNTS_GRAPH },
+      { label: 'All', value: EAccountsView.ALL_ACCOUNTS_TABLE }
+    ]
+  }
+
+  @computed
+  private get currentViewOption() {
+    return this.currentView === EAccountsView.ALL_ACCOUNTS_TABLE ?
+      <AccountTable className="savingsTable" data={this.allAccounts} /> :
+      this.topAccountsGraph
+  }
+
+  @action.bound
+  private handleCurrentViewChange(event: RadioChangeEvent) {
+    this.currentView = EAccountsView[event.target.value as EAccountsView]
   }
 
   public render() {
     return (
       <div className="savings">
-        <div className="savingsTopApy">
-          <NumberFade value={0.8} style={{
-            fontSize: '150px',
-            fontFamily: 'Arial, sans-serif',
-            fontWeight: 'bold'
-          }}/>
-        </div>
-        {this.topAccounts}
-        <AccountTable className="savingsTable" data={this.allAccounts}/>
-        <BarDisplay
-          data={{
-            title:'test',
-            value: 1.5,
-          }}
+        {this.bestAccountDetails}
+        <Radio.Group
+          options={this.viewOptions}
+          onChange={this.handleCurrentViewChange}
+          value={this.currentView}
+          optionType="button"
+          buttonStyle="solid"
+          size="large"
+          className="viewButtons"
         />
-        <BarDisplayWithAverage
-          average={2}
-          days={31}
-          value={{
-            title:'test3',
-            value: 2.55,
-          }}
-        />
+        {this.currentViewOption}
       </div>
     );
   }
