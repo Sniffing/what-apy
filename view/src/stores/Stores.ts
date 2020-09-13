@@ -10,7 +10,7 @@ class Stores {
     this.savingsStore = new SavingsStore();
     this.metadataStore = new MetadataStore();
 
-    this.metadataStore.fetch();
+    // this.metadataStore.fetch();
   }
 }
 

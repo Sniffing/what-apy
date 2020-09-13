@@ -25,12 +25,12 @@ export class BarDisplay extends React.Component<IBarDisplayProps> {
 
     if (tooltip) {
       wrappedNode =
-      <Tooltip
-        title={tooltip}
-        placement="right"
-      >
-        {node}
-      </Tooltip>;
+        <Tooltip
+          title={tooltip}
+          placement="right"
+        >
+          {node}
+        </Tooltip>;
     }
 
     return wrappedNode;
@@ -38,9 +38,7 @@ export class BarDisplay extends React.Component<IBarDisplayProps> {
 
   public render() {
     const { showNumber = true, data, className = 'bar' } = this.props;
-
-    console.log('tooltip', data.title);
-    const {title, value} = data;
+    const { title, value } = data;
     return (
       <div
         key={title}
@@ -48,31 +46,29 @@ export class BarDisplay extends React.Component<IBarDisplayProps> {
       >
         <div className="barNumber">
           {showNumber &&
-              <NumberDisplay
-                seconds={1}
-                from={0}
-                decimalPlaces={2}
-                to={value}
-                unit={'%'}
+            <NumberDisplay
+              seconds={0.5}
+              from={0}
+              decimalPlaces={2}
+              to={value}
+              unit={'%'}
 
-              />}
+            />}
         </div>
         <Spring
           config={{
-            duration: 700,
+            duration: 1000,
             delay: 200
           }}
-          from={{value: 0}}
-          to={{value}}
+          from={{ value: 0 }}
+          to={{ value }}
         >
           {(props) =>
-            <div className="barContainer" style={{height: `${value*200}px`}}>
+            <div className="barContainer" style={{ height: `${value * 200}px` }}>
               {this.wrapToolTip(
-                <div className="barGraphic"
-                  style={{
-                    height: `${props.value * 200}px`,
-                  }}
-                />
+                <svg width="60" height="200">
+                  <rect width="60" height={`${props.value * 200}`} style={{fill: 'rgb(0,0,255)'}} />
+                </svg>
               )}
             </div>
           }

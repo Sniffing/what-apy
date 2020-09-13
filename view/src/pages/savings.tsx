@@ -12,6 +12,7 @@ import { Row, Col, Spin, Radio } from 'antd';
 import { sortAccounts } from '../Constants';
 import { RadioChangeEvent } from 'antd/lib/radio';
 import { MetadataStore } from '../stores/MetadataStore';
+import { BarDisplay } from '../components/bar-display/bar-display.component';
 
 interface IProps {
   savingsStore?: SavingsStore;
@@ -53,7 +54,7 @@ export class SavingsPage extends React.Component<IProps> {
 
     return <div className="savingsTopApy">
       <div>Current top APY</div>
-      <NumberFade value={`${best.latest_apy.toFixed(2)}%`} style={{
+      <NumberFade value={`${best.latest_apy.toFixed(2)}%`} seconds={2} style={{
         fontSize: '150px',
       }} />
       <div>{metadataStore? metadataStore.bankLabels[best.bank] : best.bank}</div>
@@ -70,9 +71,8 @@ export class SavingsPage extends React.Component<IProps> {
           .slice(0, this.COUNT);
         return <Row gutter={32}>
           {top.map((acc, index) =>
-            <Col>
+            <Col key={index}>
               <BarDisplayWithAverage
-                key={index}
                 account={{
                   ...acc,
                   bank: metadataStore? metadataStore.bankLabels[acc.bank] : acc.bank
@@ -122,7 +122,14 @@ export class SavingsPage extends React.Component<IProps> {
   public render() {
     return (
       <div className="savings">
-        {this.bestAccountDetails}
+        <BarDisplay
+          data={{
+            value: 1.5,
+            title: 'TEST'
+          }}
+
+        />
+        {/* {this.bestAccountDetails}
         <Radio.Group
           options={this.viewOptions}
           onChange={this.handleCurrentViewChange}
@@ -132,7 +139,7 @@ export class SavingsPage extends React.Component<IProps> {
           size="large"
           className="viewButtons"
         />
-        {this.currentViewOption}
+        {this.currentViewOption} */}
       </div>
     );
   }

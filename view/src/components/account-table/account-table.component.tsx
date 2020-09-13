@@ -14,7 +14,7 @@ export class AccountTable extends React.Component<IProps> {
   public render() {
     const { data, className } = this.props
     const pagination: TablePaginationConfig = {
-      pageSize: 5
+      pageSize: 10
     }
     return (
       <Table
