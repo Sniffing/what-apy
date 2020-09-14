@@ -3,7 +3,6 @@ import React from 'react';
 import './bar-display.scss';
 import { Tooltip } from 'antd';
 import { Spring } from 'react-spring/renderprops';
-import { NumberDisplay } from '../number/number-display.component';
 import './bar-display.scss';
 
 interface IBarDisplayProps {
@@ -11,6 +10,7 @@ interface IBarDisplayProps {
   showNumber?: boolean;
   className?: string;
   tooltip?: React.ReactElement;
+
 }
 export interface IBar {
   title: string;
@@ -44,30 +44,35 @@ export class BarDisplay extends React.Component<IBarDisplayProps> {
         key={title}
         className={className}
       >
-        <div className="barNumber">
-          {showNumber &&
-            <NumberDisplay
-              seconds={0.5}
-              from={0}
-              decimalPlaces={2}
-              to={value}
-              unit={'%'}
-
-            />}
-        </div>
         <Spring
           config={{
-            duration: 1000,
+            duration: 700,
             delay: 200
           }}
-          from={{ value: 0 }}
-          to={{ value }}
+          from={{ barValue: 0, textValue: 0 }}
+          to={{ barValue: value, textValue: value }}
         >
-          {(props) =>
-            <div className="barContainer" style={{ height: `${value * 200}px` }}>
+          {({ barValue, textValue }) =>
+            <div className="barContainer">
               {this.wrapToolTip(
-                <svg width="60" height="200">
-                  <rect width="60" height={`${props.value * 200}`} style={{fill: 'rgb(0,0,255)'}} />
+                <svg width="60" height="100%">
+                  <g>
+                  {showNumber && (
+                    <text
+                      y={`${100 - (barValue*92/value)}%`}
+                      x="10"
+                      fontSize="16"
+                      fill="white"
+                    >
+                      {`${textValue.toFixed(2)}%`}
+                    </text>
+                  )}
+                  <rect
+                    width="60"
+                    y={`${100 - (barValue / value) * 90}%`}
+                    height={`${(barValue / value) * 90}%`}
+                    className="barGraphic" />
+                  </g>
                 </svg>
               )}
             </div>

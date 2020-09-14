@@ -69,6 +69,10 @@ export class SavingsPage extends React.Component<IProps> {
       fulfilled: (accounts: ISavingsAccountDTO[]) => {
         const top = [...accounts].sort(sortAccounts)
           .slice(0, this.COUNT);
+        const maxCurr = top[0].latest_apy;
+        const maxAvg = Math.max(...top.map(a => a.total_apy / a.entries))
+        const max = Math.max(maxCurr, maxAvg);
+
         return <Row gutter={32}>
           {top.map((acc, index) =>
             <Col key={index}>
@@ -77,6 +81,7 @@ export class SavingsPage extends React.Component<IProps> {
                   ...acc,
                   bank: metadataStore? metadataStore.bankLabels[acc.bank] : acc.bank
                 }}
+                maxHeight={max}
               />
             </Col>
           )}
@@ -122,14 +127,7 @@ export class SavingsPage extends React.Component<IProps> {
   public render() {
     return (
       <div className="savings">
-        <BarDisplay
-          data={{
-            value: 1.5,
-            title: 'TEST'
-          }}
-
-        />
-        {/* {this.bestAccountDetails}
+        {this.bestAccountDetails}
         <Radio.Group
           options={this.viewOptions}
           onChange={this.handleCurrentViewChange}
@@ -139,7 +137,7 @@ export class SavingsPage extends React.Component<IProps> {
           size="large"
           className="viewButtons"
         />
-        {this.currentViewOption} */}
+        {this.currentViewOption}
       </div>
     );
   }

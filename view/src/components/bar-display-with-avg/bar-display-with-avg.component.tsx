@@ -7,14 +7,18 @@ import './bar-display-with-avg.scss';
 interface IProps {
   account: ISavingsAccountDTO;
   tooltip?: React.ReactNode;
+  maxHeight: number;
 }
 
 export class BarDisplayWithAverage extends React.Component<IProps> {
   public render() {
-    const { account } = this.props;
+    const { account, maxHeight } = this.props;
     const avg = account.total_apy / account.entries
+
+    const max = Math.max(account.latest_apy, avg)
+
     return (
-      <div className="barDisplayWithAvg">
+      <div className="barDisplayWithAvg" style={{height: `${max*100 / maxHeight}%`}}>
         <BarDisplay
           data={{
             title: account.bank,

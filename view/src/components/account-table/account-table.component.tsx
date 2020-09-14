@@ -28,7 +28,7 @@ export class AccountTable extends React.Component<IProps> {
   }
 
   private parseBankName(name: string): string {
-    return name.split("-").join(" ")
+    return name ? name.split("-").join(" ") : name
   }
 
   private averageApy({entries, total_apy}: ISavingsAccountDTO): number {

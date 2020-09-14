@@ -7,16 +7,18 @@
   .current {
     @extend .bar;
     margin:0;
+    height: 100%;
   }
 
   .average{
     @extend .bar;
     margin: 0;
     width: 20px;
+    height: 100%;
 
     .barContainer {
       .barGraphic {
-        background-color: green;
+        fill: green;
       }
     }
   }
