@@ -10,7 +10,7 @@ interface IBarDisplayProps {
   showNumber?: boolean;
   className?: string;
   tooltip?: React.ReactElement;
-
+  relativeHeight?: number;
 }
 export interface IBar {
   title: string;
@@ -37,7 +37,7 @@ export class BarDisplay extends React.Component<IBarDisplayProps> {
   }
 
   public render() {
-    const { showNumber = true, data, className = 'bar' } = this.props;
+    const { showNumber = true, data, className = 'bar', relativeHeight = 100 } = this.props;
     const { title, value } = data;
     return (
       <div
@@ -52,31 +52,32 @@ export class BarDisplay extends React.Component<IBarDisplayProps> {
           from={{ barValue: 0, textValue: 0 }}
           to={{ barValue: value, textValue: value }}
         >
-          {({ barValue, textValue }) =>
-            <div className="barContainer">
+          {({ barValue, textValue }) => {
+            const heightPercentage = barValue*relativeHeight/value;
+            return <div className="barContainer">
               {this.wrapToolTip(
                 <svg width="60" height="100%">
                   <g>
-                  {showNumber && (
-                    <text
-                      y={`${100 - (barValue*92/value)}%`}
-                      x="10"
-                      fontSize="16"
-                      fill="white"
-                    >
-                      {`${textValue.toFixed(2)}%`}
-                    </text>
-                  )}
-                  <rect
-                    width="60"
-                    y={`${100 - (barValue / value) * 90}%`}
-                    height={`${(barValue / value) * 90}%`}
-                    className="barGraphic" />
+                    {showNumber && (
+                      <text
+                        y="20"
+                        x="6"
+                        fontSize="16"
+                        fill="white"
+                      >
+                        {`${textValue.toFixed(2)}%`}
+                      </text>
+                    )}
+                    <rect
+                      width="60"
+                      y={`calc(${100 - heightPercentage}% + 20px)`}
+                      height={`calc(${heightPercentage}% - 20px)`}
+                      className="barGraphic" />
                   </g>
                 </svg>
               )}
             </div>
-          }
+          }}
         </Spring>
         <div className="barTitle">
           <span>{title}</span>

@@ -57,7 +57,7 @@ export class SavingsPage extends React.Component<IProps> {
       <NumberFade value={`${best.latest_apy.toFixed(2)}%`} seconds={2} style={{
         fontSize: '150px',
       }} />
-      <div>{metadataStore? metadataStore.bankLabels[best.bank] : best.bank}</div>
+      <div>{metadataStore ? metadataStore.bankLabels[best.bank] : best.bank}</div>
       <div>{best.name}</div>
     </div>
   }
@@ -79,9 +79,9 @@ export class SavingsPage extends React.Component<IProps> {
               <BarDisplayWithAverage
                 account={{
                   ...acc,
-                  bank: metadataStore? metadataStore.bankLabels[acc.bank] : acc.bank
+                  bank: metadataStore ? metadataStore.bankLabels[acc.bank] : acc.bank
                 }}
-                maxHeight={max}
+                max={max}
               />
             </Col>
           )}
@@ -99,7 +99,7 @@ export class SavingsPage extends React.Component<IProps> {
     return accounts ? [...accounts].sort(sortAccounts).map(acc => {
       return {
         ...acc,
-        bank: metadataStore? metadataStore.bankLabels[acc.bank] : acc.bank
+        bank: metadataStore ? metadataStore.bankLabels[acc.bank] : acc.bank
       }
     }) : []
   }
