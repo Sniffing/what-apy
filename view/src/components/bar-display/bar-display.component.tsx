@@ -59,14 +59,15 @@ export class BarDisplay extends React.Component<IBarDisplayProps> {
                 <svg width="60" height="100%">
                   <g>
                     {showNumber && (
-                      <text
-                        y="20"
-                        x="6"
-                        fontSize="16"
-                        fill="white"
-                      >
-                        {`${textValue.toFixed(2)}%`}
-                      </text>
+                        <text
+                          y={`${100 - heightPercentage}%`}
+                          x="6"
+                          transform="translate(0,15)"
+                          fontSize="16"
+                          fill="white"
+                        >
+                          {`${textValue.toFixed(2)}%`}
+                        </text>
                     )}
                     <rect
                       width="60"
