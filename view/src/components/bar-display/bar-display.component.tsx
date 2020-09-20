@@ -15,6 +15,7 @@ interface IBarDisplayProps {
 export interface IBar {
   title: string;
   value: number;
+  link?: string;
 }
 
 export class BarDisplay extends React.Component<IBarDisplayProps> {
@@ -38,7 +39,7 @@ export class BarDisplay extends React.Component<IBarDisplayProps> {
 
   public render() {
     const { showNumber = true, data, className = 'bar', relativeHeight = 100 } = this.props;
-    const { title, value } = data;
+    const { title, value, link } = data;
     return (
       <div
         key={title}
@@ -80,9 +81,11 @@ export class BarDisplay extends React.Component<IBarDisplayProps> {
             </div>
           }}
         </Spring>
-        <div className="barTitle">
-          <span>{title}</span>
-        </div>
+        <a href={link} target="_blank">
+          <div className="barTitle">
+            <span>{title}</span>
+          </div>
+        </a>
       </div>
     );
   }

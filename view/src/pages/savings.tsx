@@ -67,6 +67,10 @@ export class SavingsPage extends React.Component<IProps> {
   @computed
   private get topAccountsGraph() {
     const { metadataStore } = this.props;
+    if (!metadataStore) {
+      return <div>loading...</div>
+    }
+
     return this.savingsAccountsPromise.case({
       fulfilled: (accounts: ISavingsAccountDTO[]) => {
         const top = [...accounts].sort(sortAccounts)
@@ -81,8 +85,9 @@ export class SavingsPage extends React.Component<IProps> {
               <BarDisplayWithAverage
                 account={{
                   ...acc,
-                  bank: metadataStore ? metadataStore.bankLabels[acc.bank] : acc.bank
+                  bank: metadataStore.bankLabels[acc.bank] ?? acc.bank,
                 }}
+                link={metadataStore.bankLinks[acc.bank]}
                 max={max}
               />
             </Col>
