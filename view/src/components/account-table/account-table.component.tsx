@@ -18,11 +18,11 @@ export class AccountTable extends React.Component<IProps> {
     }
     return (
       <Table
-      className={className}
-      dataSource={data}
-      columns={this.columns}
-      size="small"
-      pagination={pagination}
+        className={className}
+        dataSource={data}
+        columns={this.columns}
+        size="small"
+        pagination={pagination}
       />
     )
   }
@@ -62,9 +62,9 @@ export class AccountTable extends React.Component<IProps> {
         sorter: (a,b) => this.averageApy(a) - this.averageApy(b),
       },
       {
-        title: 'Days',
+        title: 'Days observed',
         dataIndex: 'entries',
-        width: 80,
+        width: 100,
         sorter: (a,b) => a.entries - b.entries
       },
     ]

@@ -46,7 +46,7 @@ export class BarDisplay extends React.Component<IBarDisplayProps> {
       >
         <Spring
           config={{
-            duration: 700,
+            duration: 550,
             delay: 200
           }}
           from={{ barValue: 0, textValue: 0 }}

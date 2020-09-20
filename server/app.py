@@ -15,16 +15,29 @@ cache = Cache()
 
 savings_accounts_api_key = 'savings_accounts'
 
+class BankMetadata:
+  def __init__(self, name, displayName, link):
+    self.name = name
+    self.displayName = displayName
+    self.link = link
+
+  def seralise(self):
+    return {
+      "name": self.name,
+      "displayName": self.displayName,
+      "link": self.link,
+    }
+
 @app.route('/metadata')
 def metadata():
   banks = {
-    "ally-bank": "Ally Bank" ,
-    "cibc-usa": "CIBC",
-    "vio-bank": "Vio Bank",
-    "american-express-national-bank": "American Express",
-    "capital-one-360": "Capital One 360",
-    "hsbc-direct": "HSBC",
-    "first-foundation-bank": "First Foundation bank"
+    "ally-bank": BankMetadata("ally-bank", "Ally Bank", "https://www.ally.com/bank/online-savings-account/").seralise(),
+    "cibc-usa": BankMetadata("cibc-usa", "CIBC", "https://us.cibc.com/en/personal/savings.html").seralise(),
+    "vio-bank": BankMetadata("vio-bank", "Vio Bank", "https://www.viobank.com/online-savings-account").seralise(),
+    "american-express-national-bank": BankMetadata("american-express-national-bank", "American Express", "https://www.americanexpress.com/en-us/banking/online-savings/account/").seralise(),
+    "capital-one-360": BankMetadata("capital-one-360", "Capital One 360", "https://www.capitalone.com/bank/savings-accounts/#id_comparesavingsaccounts").seralise(),
+    "hsbc-direct": BankMetadata("hsbc-direct", "HSBC", "https://www.hsbcdirect.com/savings/").seralise(),
+    "first-foundation-bank": BankMetadata("first-foundation-bank", "First Foundation bank", "https://www.firstfoundationinc.com/personal-banking/bank/online-savings").seralise()
   }
   metadata = {
     'banks': banks

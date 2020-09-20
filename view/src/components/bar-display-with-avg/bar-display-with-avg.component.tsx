@@ -33,6 +33,8 @@ export class BarDisplayWithAverage extends React.Component<IProps> {
           }}
           showNumber={false}
           tooltip={<div style={{ fontSize: '16px' }}>
+            <span>{account.bank}</span>
+            <br />
             <span>Average APY: {avg.toFixed(2)}%</span>
             <br />
             <span>Time observed: {account.entries} days</span>
