@@ -2,21 +2,32 @@
   text-align: center;
 
   .savingsTopApy {
-    font-size: 50px;
+    font-size: 48px;
     font-family: Arial, sans-serif;
     font-weight: bold;
+    height: 40%;
   }
 
-  .viewButtons {
-    > label {
-      min-width: 100px;
-      width: 100px;
+  .savingsRest {
+    height: 60%;
+
+    .viewButtons {
+      > label {
+        min-width: 100px;
+        width: 100px;
+      }
+
+      padding: 20px 0
     }
 
-    margin: 20px 0
-  }
+    .savingsTable {
+      width: 600px;
+    }
 
-  .savingsTable {
-    width: 600px;
+    .viewOption {
+      padding-top: 25px;
+      display: flex;
+      justify-content: center;
+    }
   }
 }

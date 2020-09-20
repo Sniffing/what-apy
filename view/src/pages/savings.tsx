@@ -8,7 +8,7 @@ import { NumberFade } from '../components/number/number-fade.component';
 import './savings.scss';
 import { BarDisplayWithAverage } from '../components/bar-display-with-avg/bar-display-with-avg.component';
 import { AccountTable } from '../components/account-table/account-table.component';
-import { Row, Col, Spin, Radio } from 'antd';
+import { Row, Col, Spin, Radio, Card } from 'antd';
 import { sortAccounts } from '../Constants';
 import { RadioChangeEvent } from 'antd/lib/radio';
 import { MetadataStore } from '../stores/MetadataStore';
@@ -52,14 +52,16 @@ export class SavingsPage extends React.Component<IProps> {
     const { metadataStore } = this.props;
     const best = this.allAccounts[0];
 
-    return <div className="savingsTopApy">
-      <div>Current top APY</div>
-      <NumberFade value={`${best.latest_apy.toFixed(2)}%`} seconds={2} style={{
-        fontSize: '150px',
-      }} />
-      <div>{metadataStore ? metadataStore.bankLabels[best.bank] : best.bank}</div>
-      <div>{best.name}</div>
-    </div>
+    return (
+      <Card className="savingsTopApy">
+        <div>Current top APY</div>
+        <NumberFade value={`${best.latest_apy.toFixed(2)}%`} seconds={2} style={{
+          fontSize: '150px',
+        }} />
+        <div>{metadataStore ? metadataStore.bankLabels[best.bank] : best.bank}</div>
+        <div>{best.name}</div>
+      </Card>
+    )
   }
 
   @computed
@@ -128,16 +130,20 @@ export class SavingsPage extends React.Component<IProps> {
     return (
       <div className="savings">
         {this.bestAccountDetails}
-        <Radio.Group
-          options={this.viewOptions}
-          onChange={this.handleCurrentViewChange}
-          value={this.currentView}
-          optionType="button"
-          buttonStyle="solid"
-          size="large"
-          className="viewButtons"
-        />
-        {this.currentViewOption}
+        <div className="savingsRest">
+          <Radio.Group
+            options={this.viewOptions}
+            onChange={this.handleCurrentViewChange}
+            value={this.currentView}
+            optionType="button"
+            buttonStyle="solid"
+            size="large"
+            className="viewButtons"
+          />
+          <div className="viewOption">
+            {this.currentViewOption}
+          </div>
+        </div>
       </div>
     );
   }
