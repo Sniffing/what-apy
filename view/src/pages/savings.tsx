@@ -101,14 +101,8 @@ export class SavingsPage extends React.Component<IProps> {
 
   @computed
   private get allAccounts(): ISavingsAccountDTO[] {
-    const { metadataStore } = this.props;
     const accounts = this.savingsAccountsPromise.value;
-    return accounts ? [...accounts].sort(sortAccounts).map(acc => {
-      return {
-        ...acc,
-        bank: metadataStore ? metadataStore.bankLabels[acc.bank] : acc.bank
-      }
-    }) : []
+    return accounts ? [...accounts].sort(sortAccounts) : []
   }
 
   @computed
