@@ -1,5 +1,6 @@
 import scrapy
 import json
+import logging
 
 class BanksSpider(scrapy.Spider):
   name = "savings"
@@ -7,6 +8,9 @@ class BanksSpider(scrapy.Spider):
   file = open('banks.json')
   start_urls = json.load(file)
   file.close()
+
+  def __init__(self):
+    logging.getLogger('scrapy').setLevel(logging.ERROR)
 
   def parse(self, response):
     bankName = response.url.split("/")[-1].split('.')[-2]
