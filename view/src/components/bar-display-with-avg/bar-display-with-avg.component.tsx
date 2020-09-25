@@ -14,7 +14,7 @@ interface IProps {
 export class BarDisplayWithAverage extends React.Component<IProps> {
   public render() {
     const { account, max, link } = this.props;
-    const avg = account.total_apy / account.entries
+    const avg = account.total_apy / account.entries;
 
     return (
       <div className="barDisplayWithAvg">

@@ -60,15 +60,15 @@ export class BarDisplay extends React.Component<IBarDisplayProps> {
                 <svg width="60" height="100%">
                   <g>
                     {showNumber && (
-                        <text
-                          y={`${100 - heightPercentage}%`}
-                          x="6"
-                          transform="translate(0,15)"
-                          fontSize="16"
-                          fill="white"
-                        >
-                          {`${textValue.toFixed(2)}%`}
-                        </text>
+                      <text
+                        y={`${100 - heightPercentage}%`}
+                        x="6"
+                        transform="translate(0,15)"
+                        fontSize="16"
+                        fill="white"
+                      >
+                        {`${textValue.toFixed(2)}%`}
+                      </text>
                     )}
                     <rect
                       width="60"
@@ -78,7 +78,7 @@ export class BarDisplay extends React.Component<IBarDisplayProps> {
                   </g>
                 </svg>
               )}
-            </div>
+            </div>;
           }}
         </Spring>
         <a href={link} target="_blank">

@@ -2,12 +2,12 @@
 import axios from 'axios';
 
 export interface ISavingsAccountDTO {
-  name: string,
-  bank: string,
-  entries: number,
-  latest_apy: number,
-  latest_date: number,
-  total_apy: number
+  name: string;
+  bank: string;
+  entries: number;
+  latest_apy: number;
+  latest_date: number;
+  total_apy: number;
 }
 
 export class SavingsStore {

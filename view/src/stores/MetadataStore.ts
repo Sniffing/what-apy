@@ -2,9 +2,9 @@ import axios from 'axios';
 import { action, computed, observable } from 'mobx';
 
 interface BankMetaData {
-  name: string,
-  displayName: string,
-  link: string,
+  name: string;
+  displayName: string;
+  link: string;
 }
 
 interface IMetadata {
@@ -20,7 +20,7 @@ export class MetadataStore {
       const response = await axios.get('/metadata');
       const meta = response.data as IMetadata;
 
-      this.setBankMeat(meta.banks)
+      this.setBankMeat(meta.banks);
       return meta;
     } catch (error) {
       console.log('error', error);
@@ -51,9 +51,9 @@ export class MetadataStore {
   @action.bound
   public setBankMeat(bankMeta: Record<string, BankMetaData> | undefined): void {
     if (!bankMeta) {
-      return
+      return;
     }
 
-    this.metaData = bankMeta
+    this.metaData = bankMeta;
   }
 }

@@ -46,7 +46,7 @@ export class SavingsPage extends React.Component<IProps> {
   @computed
   private get bestAccountDetails() {
     if (!this.allAccounts.length) {
-      return <Spin />
+      return <Spin />;
     }
 
     const { metadataStore } = this.props;
@@ -61,14 +61,14 @@ export class SavingsPage extends React.Component<IProps> {
         <div>{metadataStore ? metadataStore.bankLabels[best.bank] : best.bank}</div>
         <div>{best.name}</div>
       </Card>
-    )
+    );
   }
 
   @computed
   private get topAccountsGraph() {
     const { metadataStore } = this.props;
     if (!metadataStore) {
-      return <div>loading...</div>
+      return <div>loading...</div>;
     }
 
     return this.savingsAccountsPromise.case({
@@ -76,7 +76,7 @@ export class SavingsPage extends React.Component<IProps> {
         const top = [...accounts].sort(sortAccounts)
           .slice(0, this.COUNT);
         const maxCurr = top[0].latest_apy;
-        const maxAvg = Math.max(...top.map(a => a.total_apy / a.entries))
+        const maxAvg = Math.max(...top.map(a => a.total_apy / a.entries));
         const max = Math.max(maxCurr, maxAvg);
 
         return <Row gutter={32}>
@@ -92,7 +92,7 @@ export class SavingsPage extends React.Component<IProps> {
               />
             </Col>
           )}
-        </Row>
+        </Row>;
       },
       pending: () => <div>loading...</div>,
       rejected: (error) => <div>Error {error}</div>,
@@ -102,7 +102,7 @@ export class SavingsPage extends React.Component<IProps> {
   @computed
   private get allAccounts(): ISavingsAccountDTO[] {
     const accounts = this.savingsAccountsPromise.value;
-    return accounts ? [...accounts].sort(sortAccounts) : []
+    return accounts ? [...accounts].sort(sortAccounts) : [];
   }
 
   @computed
@@ -110,19 +110,19 @@ export class SavingsPage extends React.Component<IProps> {
     return [
       { label: `Top ${this.COUNT}`, value: EAccountsView.TOP_ACCOUNTS_GRAPH },
       { label: 'All', value: EAccountsView.ALL_ACCOUNTS_TABLE }
-    ]
+    ];
   }
 
   @computed
   private get currentViewOption() {
     return this.currentView === EAccountsView.ALL_ACCOUNTS_TABLE ?
       <AccountTable className="savingsTable" data={this.allAccounts} /> :
-      this.topAccountsGraph
+      this.topAccountsGraph;
   }
 
   @action.bound
   private handleCurrentViewChange(event: RadioChangeEvent) {
-    this.currentView = EAccountsView[event.target.value as EAccountsView]
+    this.currentView = EAccountsView[event.target.value as EAccountsView];
   }
 
   public render() {

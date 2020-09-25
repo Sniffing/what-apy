@@ -1,7 +1,6 @@
 import React from 'react';
 import { ISavingsAccountDTO } from '../../stores/SavingsStore';
-import { Table, Pagination } from 'antd';
-import { ColumnType } from 'antd/lib/list';
+import { Table } from 'antd';
 import { ColumnsType, TablePaginationConfig } from 'antd/lib/table';
 import { MetadataStore } from '../../stores/MetadataStore';
 import { inject, observer } from 'mobx-react';
@@ -10,7 +9,7 @@ import { computed } from 'mobx';
 interface IProps {
   metadataStore?: MetadataStore;
   data: ISavingsAccountDTO[];
-  className?: string
+  className?: string;
 }
 
 @inject('metadataStore')
@@ -18,10 +17,10 @@ interface IProps {
 export class AccountTable extends React.Component<IProps> {
 
   public render() {
-    const { data, className } = this.props
+    const { data, className } = this.props;
     const pagination: TablePaginationConfig = {
       pageSize: 10
-    }
+    };
     return (
       <Table
         className={className}
@@ -30,11 +29,11 @@ export class AccountTable extends React.Component<IProps> {
         size="small"
         pagination={pagination}
       />
-    )
+    );
   }
 
   private averageApy({ entries, total_apy }: ISavingsAccountDTO): number {
-    return (total_apy / entries)
+    return (total_apy / entries);
   }
 
   @computed
@@ -44,7 +43,7 @@ export class AccountTable extends React.Component<IProps> {
       {
         title: 'Bank',
         render: (bank: ISavingsAccountDTO) => <a href={metadataStore?.bankLinks[bank.bank]} target="_blank">{metadataStore?.bankLabels[bank.bank]}</a>,
-        width: 150,
+        width: 200,
       },
       {
         title: 'Name',
@@ -70,6 +69,6 @@ export class AccountTable extends React.Component<IProps> {
         width: 100,
         sorter: (a, b) => a.entries - b.entries
       },
-    ]
+    ];
   }
 }
