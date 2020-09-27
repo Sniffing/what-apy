@@ -19,6 +19,14 @@ interface ITrackingLink {
   url: string;
 }
 
+export const createLinkClickEvent = (label: string): ITrackingEvent => {
+  return {
+    action: 'Click',
+    category: 'Link click',
+    label,
+  }
+}
+
 export class TrackingStore {
   public constructor(props: IProps) {
     if (!props.key) {

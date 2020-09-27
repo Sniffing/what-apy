@@ -5,14 +5,16 @@ import { ColumnsType, TablePaginationConfig } from 'antd/lib/table';
 import { MetadataStore } from '../../stores/MetadataStore';
 import { inject, observer } from 'mobx-react';
 import { computed } from 'mobx';
+import { createLinkClickEvent, TrackingStore } from '../../stores/TrackingStore';
 
 interface IProps {
   metadataStore?: MetadataStore;
+  trackingStore?: TrackingStore;
   data: ISavingsAccountDTO[];
   className?: string;
 }
 
-@inject('metadataStore')
+@inject('metadataStore', 'trackingStore')
 @observer
 export class AccountTable extends React.Component<IProps> {
 
@@ -36,13 +38,29 @@ export class AccountTable extends React.Component<IProps> {
     return (total_apy / entries);
   }
 
+  private handleLinkClick = ({bank}: ISavingsAccountDTO) => {
+    const {metadataStore} = this.props;
+    if (!metadataStore) {
+      return
+    }
+
+    this.props.trackingStore?.trackEvent(createLinkClickEvent('Table link click'));
+
+    this.props.trackingStore?.trackNavigateAway({
+      description: `Navigate to ${bank} website`,
+      url: metadataStore.bankLinks[bank],
+    })
+
+    window.open(metadataStore?.bankLinks[bank], '_blank');
+  }
+
   @computed
   private get columns(): ColumnsType<ISavingsAccountDTO> {
     const { metadataStore } = this.props;
     return [
       {
         title: 'Bank',
-        render: (bank: ISavingsAccountDTO) => <a href={metadataStore?.bankLinks[bank.bank]} target="_blank">{metadataStore?.bankLabels[bank.bank]}</a>,
+        render: (bank: ISavingsAccountDTO) => <a onClick={() => this.handleLinkClick(bank)}>{metadataStore?.bankLabels[bank.bank]}</a>,
         width: 200,
       },
       {

@@ -5,7 +5,7 @@ import { Tooltip } from 'antd';
 import { Spring } from 'react-spring/renderprops';
 import './bar-display.scss';
 import { inject } from 'mobx-react';
-import { TrackingStore } from '../../stores/TrackingStore';
+import { createLinkClickEvent, TrackingStore } from '../../stores/TrackingStore';
 
 interface IBarDisplayProps {
   data: IBar;
@@ -46,10 +46,14 @@ export class BarDisplay extends React.Component<IBarDisplayProps> {
       return;
     }
 
+    this.props.trackingStore?.trackEvent(createLinkClickEvent('Bar graph link click'));
+
     this.props.trackingStore?.trackNavigateAway({
       description: `Navigate to ${this.props.data.title} website`,
       url: this.props.data.link
     })
+
+    window.open(this.props.data.link, '_blank');
   }
 
   public render() {
@@ -96,7 +100,7 @@ export class BarDisplay extends React.Component<IBarDisplayProps> {
             </div>;
           }}
         </Spring>
-        <a onClick={this.handleLinkClick} target="_blank">
+        <a onClick={this.handleLinkClick}>
           <div className="barTitle">
             <span>{title}</span>
           </div>
