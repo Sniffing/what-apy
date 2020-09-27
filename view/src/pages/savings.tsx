@@ -13,10 +13,12 @@ import { sortAccounts } from '../Constants';
 import { RadioChangeEvent } from 'antd/lib/radio';
 import { MetadataStore } from '../stores/MetadataStore';
 import { BarDisplay } from '../components/bar-display/bar-display.component';
+import { TrackingStore } from '../stores/TrackingStore';
 
 interface IProps {
   savingsStore?: SavingsStore;
   metadataStore?: MetadataStore;
+  trackingStore?: TrackingStore;
 }
 
 enum EAccountsView {
@@ -24,7 +26,7 @@ enum EAccountsView {
   ALL_ACCOUNTS_TABLE = 'ALL_ACCOUNTS_TABLE',
 }
 
-@inject('savingsStore', 'metadataStore')
+@inject('savingsStore', 'metadataStore', 'trackingStore')
 @observer
 export class SavingsPage extends React.Component<IProps> {
   private COUNT = 5;
@@ -37,10 +39,12 @@ export class SavingsPage extends React.Component<IProps> {
 
   @action.bound
   public componentDidMount() {
-    if (!this.props.savingsStore)
+    const {savingsStore, trackingStore} = this.props;
+    if (!savingsStore)
       return;
 
-    this.savingsAccountsPromise = fromPromise(this.props.savingsStore.fetch());
+    this.savingsAccountsPromise = fromPromise(savingsStore.fetch());
+    trackingStore?.trackPageView('/home');
   }
 
   @computed
@@ -122,7 +126,15 @@ export class SavingsPage extends React.Component<IProps> {
 
   @action.bound
   private handleCurrentViewChange(event: RadioChangeEvent) {
+    const {trackingStore} = this.props;
+
     this.currentView = EAccountsView[event.target.value as EAccountsView];
+
+    trackingStore?.trackEvent({
+      action: 'Switch data view',
+      category: 'Button click',
+      label: this.currentView
+    })
   }
 
   public render() {

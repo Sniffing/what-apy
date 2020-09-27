@@ -4,6 +4,8 @@ import './bar-display.scss';
 import { Tooltip } from 'antd';
 import { Spring } from 'react-spring/renderprops';
 import './bar-display.scss';
+import { inject } from 'mobx-react';
+import { TrackingStore } from '../../stores/TrackingStore';
 
 interface IBarDisplayProps {
   data: IBar;
@@ -11,6 +13,7 @@ interface IBarDisplayProps {
   className?: string;
   tooltip?: React.ReactElement;
   relativeHeight?: number;
+  trackingStore?: TrackingStore;
 }
 export interface IBar {
   title: string;
@@ -18,6 +21,7 @@ export interface IBar {
   link?: string;
 }
 
+@inject('trackingStore')
 export class BarDisplay extends React.Component<IBarDisplayProps> {
 
   private wrapToolTip(node: React.ReactElement) {
@@ -37,9 +41,20 @@ export class BarDisplay extends React.Component<IBarDisplayProps> {
     return wrappedNode;
   }
 
+  private handleLinkClick = () => {
+    if (!this.props.data.link) {
+      return;
+    }
+
+    this.props.trackingStore?.trackNavigateAway({
+      description: `Navigate to ${this.props.data.title} website`,
+      url: this.props.data.link
+    })
+  }
+
   public render() {
     const { showNumber = true, data, className = 'bar', relativeHeight = 100 } = this.props;
-    const { title, value, link } = data;
+    const { title, value } = data;
     return (
       <div
         key={title}
@@ -81,7 +96,7 @@ export class BarDisplay extends React.Component<IBarDisplayProps> {
             </div>;
           }}
         </Spring>
-        <a href={link} target="_blank">
+        <a onClick={this.handleLinkClick} target="_blank">
           <div className="barTitle">
             <span>{title}</span>
           </div>
