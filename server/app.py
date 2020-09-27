@@ -1,4 +1,7 @@
 from flask import Flask
+from flask_limiter import Limiter
+from flask_limiter.util import get_ipaddr
+
 from flask import jsonify
 import json
 from savingsAccounts import SavingsAccountDAO
@@ -13,7 +16,14 @@ name = 'savings_acc_name'
 key = db.key(kind, name)
 cache = Cache()
 
+limiter = Limiter(
+    app,
+    key_func=get_ipaddr,
+    default_limits=["200 per day", "50 per hour"]
+)
+
 savings_accounts_api_key = 'savings_accounts'
+metadata_api_key = 'metadata'
 
 class BankMetadata:
   def __init__(self, name, displayName, link):
@@ -29,26 +39,36 @@ class BankMetadata:
     }
 
 @app.route('/metadata')
+@limiter.limit("10/minute")
 def metadata():
-  banks = {
-    "ally-bank": BankMetadata("ally-bank", "Ally Bank", "https://www.ally.com/bank/online-savings-account/").seralise(),
-    "cibc-usa": BankMetadata("cibc-usa", "CIBC", "https://us.cibc.com/en/personal/savings.html").seralise(),
-    "vio-bank": BankMetadata("vio-bank", "Vio Bank", "https://www.viobank.com/online-savings-account").seralise(),
-    "american-express-national-bank": BankMetadata("american-express-national-bank", "American Express", "https://www.americanexpress.com/en-us/banking/online-savings/account/").seralise(),
-    "capital-one-360": BankMetadata("capital-one-360", "Capital One 360", "https://www.capitalone.com/bank/savings-accounts/#id_comparesavingsaccounts").seralise(),
-    "hsbc-direct": BankMetadata("hsbc-direct", "HSBC", "https://www.hsbcdirect.com/savings/").seralise(),
-    "first-foundation-bank": BankMetadata("first-foundation-bank", "First Foundation bank", "https://www.firstfoundationinc.com/personal-banking/bank/online-savings").seralise()
-  }
+  banks = cache.get(metadata_api_key)
+
+  if banks:
+    print('cache hit', metadata_api_key)
+
+  if not banks:
+    banks = {
+      "ally-bank": BankMetadata("ally-bank", "Ally Bank", "https://www.ally.com/bank/online-savings-account/").seralise(),
+      "cibc-usa": BankMetadata("cibc-usa", "CIBC", "https://us.cibc.com/en/personal/savings.html").seralise(),
+      "vio-bank": BankMetadata("vio-bank", "Vio Bank", "https://www.viobank.com/online-savings-account").seralise(),
+      "american-express-national-bank": BankMetadata("american-express-national-bank", "American Express", "https://www.americanexpress.com/en-us/banking/online-savings/account/").seralise(),
+      "capital-one-360": BankMetadata("capital-one-360", "Capital One 360", "https://www.capitalone.com/bank/savings-accounts/#id_comparesavingsaccounts").seralise(),
+      "hsbc-direct": BankMetadata("hsbc-direct", "HSBC", "https://www.hsbcdirect.com/savings/").seralise(),
+      "first-foundation-bank": BankMetadata("first-foundation-bank", "First Foundation bank", "https://www.firstfoundationinc.com/personal-banking/bank/online-savings").seralise()
+    }
+    cache.put(metadata_api_key, banks)
+
   metadata = {
     'banks': banks
   }
   return jsonify(metadata)
 
 @app.route('/savings_accounts')
+@limiter.limit("300/hour")
 def savings_accounts():
   accs_by_bank = cache.get(savings_accounts_api_key)
 
-  if accs_by_bank: print('cache hit')
+  if accs_by_bank: print('cache hit', savings_accounts_api_key)
 
   if not accs_by_bank:
     query = db.query(kind=kind)
@@ -59,12 +79,12 @@ def savings_accounts():
 
   return jsonify([acc.serialise() for banks, types in accs_by_bank.items() for t, acc in types.items()])
 
-def createEntry():
-  entry = datastore.Entity(key=key)
-  entry['apy'] = 1.05
-  entry['name'] = 'test'
+# def createEntry():
+  # entry = datastore.Entity(key=key)
+  # entry['apy'] = 1.05
+  # entry['name'] = 'test'
 
-  db.put(entry)
+  # db.put(entry)
 
 def readSavings():
   entries = db.query(kind=kind).fetch()
