@@ -1,6 +1,7 @@
 from flask import Flask
+from flask import request
 from flask_limiter import Limiter
-from flask_limiter.util import get_ipaddr
+from flask_limiter.util import get_remote_address
 
 from flask import jsonify
 import json
@@ -18,9 +19,13 @@ cache = Cache()
 
 limiter = Limiter(
     app,
-    key_func=get_ipaddr,
-    default_limits=["200 per day", "50 per hour"]
+    key_func=get_remote_address,
+    default_limits=["200 per day", "300 per hour"]
 )
+
+@limiter.request_filter
+def ip_whitelist():
+  return request.remote_addr == "127.0.0.1"
 
 savings_accounts_api_key = 'savings_accounts'
 metadata_api_key = 'metadata'
