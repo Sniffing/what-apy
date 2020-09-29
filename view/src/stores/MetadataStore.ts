@@ -14,10 +14,12 @@ interface IMetadata {
 }
 
 export class MetadataStore {
+  private server: string;
   private trackingStore: TrackingStore;
 
-  public constructor({trackingStore}: ApiStoreProps) {
-    this.trackingStore = trackingStore
+  public constructor({trackingStore, server}: ApiStoreProps) {
+    this.trackingStore = trackingStore;
+    this.server = server;
   }
 
   @observable
@@ -25,7 +27,7 @@ export class MetadataStore {
 
   public async fetch(): Promise<IMetadata> {
     try {
-      const response = await axios.get('/metadata');
+      const response = await axios.get(this.server+'/metadata');
       const meta = response.data as IMetadata;
 
       this.setBankMeta(meta.banks);
@@ -35,7 +37,7 @@ export class MetadataStore {
       this.trackingStore.trackError({
         error: 'Error loading site metadata',
         fatal: true,
-      })
+      });
       return {};
     }
   }

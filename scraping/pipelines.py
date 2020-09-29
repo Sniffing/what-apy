@@ -28,7 +28,6 @@ class DatabasePipeline:
             print('Missing apy')
             return
 
-
         self.save(item)
 
     def save(self, item):

@@ -13,22 +13,24 @@ export interface ISavingsAccountDTO {
 }
 
 export class SavingsStore {
+  private server: string;
   private trackingStore: TrackingStore;
 
-  public constructor({trackingStore}: ApiStoreProps) {
-    this.trackingStore = trackingStore
+  public constructor({trackingStore, server}: ApiStoreProps) {
+    this.trackingStore = trackingStore;
+    this.server = server;
   }
 
   public async fetch(): Promise<ISavingsAccountDTO[]> {
     try {
-      const response = await axios.get('/savings_accounts');
+      const response = await axios.get(this.server+'/savings_accounts');
       return response.data as ISavingsAccountDTO[];
     } catch (error) {
       console.error('Error', error);
       this.trackingStore.trackError({
         error: 'Error loading bank data',
         fatal: true,
-      })
+      });
       return [];
     }
   }

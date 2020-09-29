@@ -3,6 +3,7 @@ import { SavingsStore } from './SavingsStore';
 import { TrackingStore } from './TrackingStore';
 
 export interface ApiStoreProps {
+  server: string;
   trackingStore: TrackingStore;
 }
 
@@ -19,8 +20,9 @@ class Stores {
     });
 
     const apiStoreProps = {
+      server: process.env.REACT_APP_SERVER || '',
       trackingStore: this.trackingStore
-    }
+    };
 
     this.savingsStore = new SavingsStore(apiStoreProps);
     this.metadataStore = new MetadataStore(apiStoreProps);

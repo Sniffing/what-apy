@@ -12,8 +12,6 @@ class BanksSpider(scrapy.Spider):
   def __init__(self):
     logging.getLogger('scrapy').setLevel(logging.ERROR)
     logging.getLogger('scrapy.utils').setLevel(logging.INFO)
-    logging.getLogger('scrapy.extensions.telnet').setLevel(logging.CRITICAL)
-    logging.getLogger('scrapy.middleware').setLevel(logging.ERROR)
 
   def parse(self, response):
     bankName = response.url.split("/")[-1].split('.')[-2]

@@ -134,7 +134,7 @@ export class SavingsPage extends React.Component<IProps> {
       action: 'Switch data view',
       category: 'Button click',
       label: this.currentView
-    })
+    });
   }
 
   public render() {
