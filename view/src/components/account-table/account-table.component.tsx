@@ -1,6 +1,6 @@
 import React from 'react';
 import { ISavingsAccountDTO } from '../../stores/SavingsStore';
-import { Table } from 'antd';
+import { Table, Button } from 'antd';
 import { ColumnsType, TablePaginationConfig } from 'antd/lib/table';
 import { MetadataStore } from '../../stores/MetadataStore';
 import { inject, observer } from 'mobx-react';
@@ -41,7 +41,7 @@ export class AccountTable extends React.Component<IProps> {
   private handleLinkClick = ({bank}: ISavingsAccountDTO) => {
     const {metadataStore} = this.props;
     if (!metadataStore) {
-      return
+      return;
     }
 
     this.props.trackingStore?.trackEvent(createLinkClickEvent('Table link click'));
@@ -49,7 +49,7 @@ export class AccountTable extends React.Component<IProps> {
     this.props.trackingStore?.trackNavigateAway({
       description: `Navigate to ${bank} website`,
       url: metadataStore.bankLinks[bank],
-    })
+    });
 
     window.open(metadataStore?.bankLinks[bank], '_blank');
   }
@@ -60,7 +60,7 @@ export class AccountTable extends React.Component<IProps> {
     return [
       {
         title: 'Bank',
-        render: (bank: ISavingsAccountDTO) => <a onClick={() => this.handleLinkClick(bank)}>{metadataStore?.bankLabels[bank.bank]}</a>,
+        render: (bank: ISavingsAccountDTO) => <Button type="link" onClick={() => this.handleLinkClick(bank)}>{metadataStore?.bankLabels[bank.bank]}</Button>,
         width: 200,
       },
       {

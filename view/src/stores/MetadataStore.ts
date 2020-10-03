@@ -2,6 +2,7 @@ import axios from 'axios';
 import { action, computed, observable } from 'mobx';
 import { ApiStoreProps } from './Stores';
 import { TrackingStore } from './TrackingStore';
+import { fromPromise, IPromiseBasedObservable } from 'mobx-utils';
 
 interface BankMetaData {
   name: string;
@@ -17,28 +18,28 @@ export class MetadataStore {
   private server: string;
   private trackingStore: TrackingStore;
 
+  @observable
+  private metaData: Record<string, BankMetaData> = {};
+
+  @observable
+  public fetchingMetadataPromise: IPromiseBasedObservable<IMetadata> = fromPromise(Promise.reject());
+
   public constructor({trackingStore, server}: ApiStoreProps) {
     this.trackingStore = trackingStore;
     this.server = server;
   }
 
-  @observable
-  private metaData: Record<string, BankMetaData> = {};
-
-  public async fetch(): Promise<IMetadata> {
+  public async fetch(): Promise<void> {
     try {
-      const response = await axios.get(this.server+'/metadata');
-      const meta = response.data as IMetadata;
-
-      this.setBankMeta(meta.banks);
-      return meta;
+      this.fetchingMetadataPromise = fromPromise(axios.get(this.server+'/metadata'));
+      await this.fetchingMetadataPromise;
+      this.setBankMeta(this.fetchingMetadataPromise.value.banks);
     } catch (error) {
       console.error('Error', error);
       this.trackingStore.trackError({
         error: 'Error loading site metadata',
         fatal: true,
       });
-      return {};
     }
   }
 

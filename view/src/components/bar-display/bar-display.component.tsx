@@ -1,7 +1,7 @@
 import React from 'react';
 
 import './bar-display.scss';
-import { Tooltip } from 'antd';
+import { Tooltip, Button } from 'antd';
 import { Spring } from 'react-spring/renderprops';
 import './bar-display.scss';
 import { inject } from 'mobx-react';
@@ -51,7 +51,7 @@ export class BarDisplay extends React.Component<IBarDisplayProps> {
     this.props.trackingStore?.trackNavigateAway({
       description: `Navigate to ${this.props.data.title} website`,
       url: this.props.data.link
-    })
+    });
 
     window.open(this.props.data.link, '_blank');
   }
@@ -100,11 +100,11 @@ export class BarDisplay extends React.Component<IBarDisplayProps> {
             </div>;
           }}
         </Spring>
-        <a onClick={this.handleLinkClick}>
+        <Button type="link" onClick={this.handleLinkClick}>
           <div className="barTitle">
             <span>{title}</span>
           </div>
-        </a>
+        </Button>
       </div>
     );
   }

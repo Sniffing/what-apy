@@ -1,7 +1,7 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
 import { action, observable, computed } from 'mobx';
-import { fromPromise, IPromiseBasedObservable } from 'mobx-utils';
+import { fromPromise, IPromiseBasedObservable, FULFILLED } from 'mobx-utils';
 import { SavingsStore, ISavingsAccountDTO } from '../stores/SavingsStore';
 import { NumberFade } from '../components/number/number-fade.component';
 
@@ -12,7 +12,6 @@ import { Row, Col, Spin, Radio, Card } from 'antd';
 import { sortAccounts } from '../Constants';
 import { RadioChangeEvent } from 'antd/lib/radio';
 import { MetadataStore } from '../stores/MetadataStore';
-import { BarDisplay } from '../components/bar-display/bar-display.component';
 import { TrackingStore } from '../stores/TrackingStore';
 
 interface IProps {
@@ -71,36 +70,29 @@ export class SavingsPage extends React.Component<IProps> {
   @computed
   private get topAccountsGraph() {
     const { metadataStore } = this.props;
-    if (!metadataStore) {
-      return <div>loading...</div>;
-    }
+    const accounts: ISavingsAccountDTO[] = this.savingsAccountsPromise.value;
 
-    return this.savingsAccountsPromise.case({
-      fulfilled: (accounts: ISavingsAccountDTO[]) => {
-        const top = [...accounts].sort(sortAccounts)
-          .slice(0, this.COUNT);
-        const maxCurr = top[0].latest_apy;
-        const maxAvg = Math.max(...top.map(a => a.total_apy / a.entries));
-        const max = Math.max(maxCurr, maxAvg);
+    const top = [...accounts].sort(sortAccounts)
+      .slice(0, this.COUNT);
+    const maxCurr = top[0].latest_apy;
+    const maxAvg = Math.max(...top.map(a => a.total_apy / a.entries));
+    const max = Math.max(maxCurr, maxAvg);
 
-        return <Row gutter={32}>
-          {top.map((acc, index) =>
-            <Col key={index}>
-              <BarDisplayWithAverage
-                account={{
-                  ...acc,
-                  bank: metadataStore.bankLabels[acc.bank] ?? acc.bank,
-                }}
-                link={metadataStore.bankLinks[acc.bank]}
-                max={max}
-              />
-            </Col>
-          )}
-        </Row>;
-      },
-      pending: () => <div>loading...</div>,
-      rejected: (error) => <div>Error {error}</div>,
-    });
+    return <Row gutter={32}>
+      {top.map((acc, index) =>
+        <Col key={index}>
+          <BarDisplayWithAverage
+            account={{
+              ...acc,
+              bank: metadataStore?.bankLabels[acc.bank] ?? acc.bank,
+            }}
+            link={metadataStore?.bankLinks[acc.bank]}
+            max={max}
+          />
+        </Col>
+      )}
+    </Row>;
+
   }
 
   @computed
@@ -138,6 +130,11 @@ export class SavingsPage extends React.Component<IProps> {
   }
 
   public render() {
+    if (this.savingsAccountsPromise.state !== FULFILLED ||
+      this.props.metadataStore?.fetchingMetadataPromise.state !== FULFILLED) {
+      return <Spin/>;
+    }
+
     return (
       <div className="savings">
         {this.bestAccountDetails}
