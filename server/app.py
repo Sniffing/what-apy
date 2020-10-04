@@ -12,7 +12,7 @@ from google.cloud import datastore
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "http://localhost/*"}})
-db = datastore.Client().from_service_account_json('../what-apy.json')
+db = datastore.Client().from_service_account_json('what-apy.json')
 
 kind = 'flat_apy'
 name = 'savings_acc_name'
