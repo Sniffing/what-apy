@@ -16,7 +16,7 @@ class SrcPipeline:
 
 class DatabasePipeline:
     def open_spider(self, spider):
-        self.db = datastore.Client().from_service_account_json('../what-apy.json')
+        self.db = datastore.Client().from_service_account_json('../server/what-apy.json')
         self.kind = 'flat_apy'
 
     def process_item(self, item, spider):
