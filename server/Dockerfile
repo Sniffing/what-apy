@@ -1,8 +1,8 @@
 FROM python:slim
 
 RUN apt-get update
-RUN apt-get install -y vim
-RUN apt-get install -y net-tools
+# RUN apt-get install -y vim
+# RUN apt-get install -y net-tools
 
 WORKDIR /usr/what-apy
 COPY . .

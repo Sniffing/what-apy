@@ -2,7 +2,6 @@ src/__*__/
 src/*/__*__/
 *.pyc
 
-*.html
 
 what-apy.json
 scrape_banks.sh
