@@ -34,7 +34,7 @@ export class TrackingStore {
       return;
     }
 
-    const debug = (props.debug) ? props.debug : true
+    const debug = (props.debug === undefined) ? true : props.debug
     let version = 'UNVERSIONED';
 
     if (props.trackingVersion && !debug) {
@@ -49,7 +49,7 @@ export class TrackingStore {
       debug,
       titleCase: false,
       gaOptions: {
-        userId: 'developing'
+        userId: 'temp'
       }
     });
 

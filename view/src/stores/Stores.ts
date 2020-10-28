@@ -17,6 +17,7 @@ class Stores {
     this.trackingStore = new TrackingStore({
       key: process.env.REACT_APP_GA_TRACKING_KEY,
       trackingVersion: process.env.REACT_APP_TRACKING_VERSION,
+      debug: process.env.REACT_APP_GA_DEBUG === 'true',
     });
 
     const apiStoreProps = {
