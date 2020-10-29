@@ -15,7 +15,7 @@ interface IMetadata {
 }
 
 export class MetadataStore {
-  private server: string;
+  private apiEndpoint: string;
   private trackingStore: TrackingStore;
 
   @observable
@@ -24,14 +24,14 @@ export class MetadataStore {
   @observable
   public fetchingMetadataPromise: IPromiseBasedObservable<IMetadata> = fromPromise(Promise.reject());
 
-  public constructor({trackingStore, server}: ApiStoreProps) {
+  public constructor({trackingStore, apiEndpoint}: ApiStoreProps) {
     this.trackingStore = trackingStore;
-    this.server = server;
+    this.apiEndpoint = apiEndpoint;
   }
 
   public async fetch(): Promise<void> {
     try {
-      this.fetchingMetadataPromise = fromPromise(axios.get(this.server+'/metadata'));
+      this.fetchingMetadataPromise = fromPromise(axios.get(this.apiEndpoint+'/metadata'));
       await this.fetchingMetadataPromise;
       this.setBankMeta(this.fetchingMetadataPromise.value.banks);
     } catch (error) {

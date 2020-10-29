@@ -3,7 +3,7 @@ import { SavingsStore } from './SavingsStore';
 import { TrackingStore } from './TrackingStore';
 
 export interface ApiStoreProps {
-  server: string;
+  apiEndpoint: string;
   trackingStore: TrackingStore;
 }
 
@@ -21,7 +21,7 @@ class Stores {
     });
 
     const apiStoreProps = {
-      server: process.env.REACT_APP_SERVER || '',
+      apiEndpoint: process.env.REACT_APP_API_ENDPOINT || '',
       trackingStore: this.trackingStore
     };
 

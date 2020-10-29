@@ -13,17 +13,17 @@ export interface ISavingsAccountDTO {
 }
 
 export class SavingsStore {
-  private server: string;
+  private apiEndpoint: string;
   private trackingStore: TrackingStore;
 
-  public constructor({trackingStore, server}: ApiStoreProps) {
+  public constructor({trackingStore, apiEndpoint}: ApiStoreProps) {
     this.trackingStore = trackingStore;
-    this.server = server;
+    this.apiEndpoint = apiEndpoint;
   }
 
   public async fetch(): Promise<ISavingsAccountDTO[]> {
     try {
-      const response = await axios.get(this.server+'/savings_accounts');
+      const response = await axios.get(this.apiEndpoint+'/savings_accounts');
       return response.data as ISavingsAccountDTO[];
     } catch (error) {
       console.error('Error', error);
