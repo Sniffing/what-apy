@@ -1,11 +1,20 @@
 .savings {
   text-align: center;
+  font-size: 12px;
 
   .savingsTopApy {
-    font-size: 48px;
+    font-size: 1rem;
     font-family: Arial, sans-serif;
     font-weight: bold;
     height: 40%;
+  }
+
+  .savingsTopBank {
+    font-size: 3rem;
+  }
+
+  .savingsTopAccount {
+    font-size: 1.5rem;
   }
 
   .savingsRest {

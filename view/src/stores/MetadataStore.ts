@@ -33,7 +33,7 @@ export class MetadataStore {
     try {
       this.fetchingMetadataPromise = fromPromise(axios.get(this.apiEndpoint+'/metadata'));
       await this.fetchingMetadataPromise;
-      this.setBankMeta(this.fetchingMetadataPromise.value.banks);
+      this.setBankMeta(this.fetchingMetadataPromise.value.data.banks);
     } catch (error) {
       console.error('Error', error);
       this.trackingStore.trackError({

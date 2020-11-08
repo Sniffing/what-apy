@@ -33,6 +33,8 @@
         "react/jsx-uses-react": "error",
         "react/jsx-uses-vars": "error",
         "@typescript-eslint/explicit-function-return-type": "off",
-        "@typescript-eslint/interface-name-prefix": "off" 
+        "@typescript-eslint/interface-name-prefix": "off" ,
+        "camelcase": "off",
+        "@typescript-eslint/camelcase": ["off"]
     }
 }

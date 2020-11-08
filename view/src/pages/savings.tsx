@@ -53,16 +53,18 @@ export class SavingsPage extends React.Component<IProps> {
     }
 
     const { metadataStore } = this.props;
-    const best = this.allAccounts[0];
+    const best: ISavingsAccountDTO = this.allAccounts[0];
 
     return (
       <Card className="savingsTopApy">
         <div>Current top APY</div>
         <NumberFade value={`${best.latest_apy.toFixed(2)}%`} seconds={2} style={{
-          fontSize: '150px',
+          fontSize: '75px',
         }} />
-        <div>{metadataStore ? metadataStore.bankLabels[best.bank] : best.bank}</div>
-        <div>{best.name}</div>
+        <a href={metadataStore?.bankLinks[best.bank]} target="_blank" rel="noopener noreferrer">
+          <div className="savingsTopBank">{metadataStore ? metadataStore.bankLabels[best.bank] : best.bank}</div>
+        </a>
+        <div className="savingsTopAccount">{best.name}</div>
       </Card>
     );
   }
@@ -130,8 +132,10 @@ export class SavingsPage extends React.Component<IProps> {
   }
 
   public render() {
+    const { metadataStore } = this.props;
+
     if (this.savingsAccountsPromise.state !== FULFILLED ||
-      this.props.metadataStore?.fetchingMetadataPromise.state !== FULFILLED) {
+      metadataStore?.fetchingMetadataPromise.state !== FULFILLED) {
       return <Spin/>;
     }
 

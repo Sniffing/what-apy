@@ -25,6 +25,7 @@ export class AccountTable extends React.Component<IProps> {
     };
     return (
       <Table
+        rowKey="name"
         className={className}
         dataSource={data}
         columns={this.columns}
