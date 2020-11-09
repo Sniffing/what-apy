@@ -28,10 +28,7 @@
     height: 100px;
     flex-grow: 1;
     text-align: center;
-
-    > span {
-      text-overflow: ellipsis;
-    }
+    white-space: normal;
   }
 
   .tooltip {

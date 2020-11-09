@@ -102,7 +102,7 @@ export class BarDisplay extends React.Component<IBarDisplayProps> {
         </Spring>
         <Button type="link" onClick={this.handleLinkClick}>
           <div className="barTitle">
-            <span>{title}</span>
+            {title}
           </div>
         </Button>
       </div>

@@ -1,16 +1,24 @@
 import React from 'react';
 import { Provider } from 'mobx-react';
-import './App.css';
 import 'antd/dist/antd.css';
 import stores from './stores/Stores';
 import { SavingsPage } from './pages/savings';
+import { Layout } from 'antd';
+import { SiteFooter } from './components/site-footer/site-footer.component';
+
+const { Content, Footer } = Layout;
 
 function App() {
   return (
     <Provider {...stores}>
-      <div className="App">
-        <SavingsPage/>
-      </div>
+      <Layout style={{height: '100vh'}}>
+        <Content>
+          <SavingsPage/>
+        </Content>
+        <Footer>
+          <SiteFooter/>
+        </Footer>
+      </Layout>
     </Provider>
   );
 }
