@@ -61,7 +61,8 @@ def metadata():
       "american-express-national-bank": BankMetadata("american-express-national-bank", "American Express", "https://www.americanexpress.com/en-us/banking/online-savings/account/").seralise(),
       "capital-one-360": BankMetadata("capital-one-360", "Capital One 360", "https://www.capitalone.com/bank/savings-accounts/#id_comparesavingsaccounts").seralise(),
       "hsbc-direct": BankMetadata("hsbc-direct", "HSBC", "https://www.hsbcdirect.com/savings/").seralise(),
-      "first-foundation-bank": BankMetadata("first-foundation-bank", "First Foundation bank", "https://www.firstfoundationinc.com/personal-banking/bank/online-savings").seralise()
+      "first-foundation-bank": BankMetadata("first-foundation-bank", "First Foundation Bank", "https://www.firstfoundationinc.com/personal-banking/bank/online-savings").seralise(),
+      "discover-bank": BankMetadata("discover-bank", "Discover Bank", "https://www.discover.com/online-banking/savings-account/").seralise(),
     }
     cache.put(metadata_api_key, banks)
 
