@@ -84,7 +84,7 @@ export class BarDisplay extends React.Component<IBarDisplayProps> {
                         x="6"
                         transform="translate(0,15)"
                         fontSize="16"
-                        fill="white"
+                        fill="black"
                       >
                         {`${textValue.toFixed(2)}%`}
                       </text>

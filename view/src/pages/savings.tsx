@@ -59,7 +59,7 @@ export class SavingsPage extends React.Component<IProps> {
       <Card className="savingsTopApy">
         <div>Current top APY</div>
         <NumberFade value={`${best.latest_apy.toFixed(2)}%`} seconds={2} style={{
-          fontSize: '75px',
+          fontSize: '3rem',
         }} />
         <a href={metadataStore?.bankLinks[best.bank]} target="_blank" rel="noopener noreferrer">
           <div className="savingsTopBank">{metadataStore ? metadataStore.bankLabels[best.bank] : best.bank}</div>
